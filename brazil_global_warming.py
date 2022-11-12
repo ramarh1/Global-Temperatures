@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
     menu_items={
         'Get Help': '',
-        'Report a bug': "",
+        'Report a bug': '',
         'About': "# Dashboard created to show data trends involving the environment!"
     }
 )
