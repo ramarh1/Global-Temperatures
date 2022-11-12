@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-st.title('Global Warming Trends in Brazil')
+st.title('Global Warming Trends in Different Countries')
 data = pd.read_csv("archive/ENVIRON_DATA.csv")
 
 def preprocess_data(df):
@@ -17,7 +17,7 @@ def preprocess_data(df):
 
 updated_data = preprocess_data(data)
 updated_data = updated_data.reset_index()
-
+country_list = updated_data.Area.values.tolist()
 
 def query_country(df, name):
     df2 = df.query(f"Area == '{name}'")
@@ -29,6 +29,10 @@ def query_country(df, name):
     
     return df2
 
-brazil_stats = query_country(updated_data,"Brazil")
+option = st.selectbox('Choose a country to see the global warming trend:',country_list)
 
-st.line_chart(brazil_stats,x="Year",y="Temp Change")
+
+#brazil_stats = query_country(updated_data,"Brazil")
+country_stats = query_country(updated_data,option)
+
+st.line_chart(country_stats,x="Year",y="Temp Change")
