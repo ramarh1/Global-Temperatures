@@ -11,7 +11,7 @@ def preprocess_data(df):
     df = df.query("Element == 'Temperature change'")
     df_grouped = df.groupby("Area").mean()
     df_grouped.reset_index()
-    df_grouped.drop(df_grouped.columns[[0,1,2]], inplace=True, axis=1)
+    df_grouped.drop(df_grouped.columns[[0,1,2,3,4]], inplace=True, axis=1)
     df_grouped.rename(columns=lambda x: x[1:], inplace=True)
 
     return df_grouped
