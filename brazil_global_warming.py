@@ -4,7 +4,7 @@ import numpy as np
 #import plotly.express as px
 
 st.title('Global Warming Trends in Brazil')
-data = pd.read_csv("archive/Environment_Temperature_change_E_All_Data_NOFLAG.csv")
+data = pd.read_csv("archive/ENVIRON_DATA.csv")
 
 def preprocess_data(df):
     df = df.copy()
