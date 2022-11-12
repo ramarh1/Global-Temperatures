@@ -2,6 +2,18 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+st.set_page_config(
+    page_title="Environment Dashboard",
+    page_icon="random",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get Help': '',
+        'Report a bug': "",
+        'About': "# Dashboard created to show data trends involving the environment!"
+    }
+)
+
 st.title('Global Warming Trends in Different Countries')
 data = pd.read_csv("archive/ENVIRON_DATA.csv")
 
@@ -17,6 +29,8 @@ def preprocess_data(df):
 
 updated_data = preprocess_data(data)
 updated_data = updated_data.reset_index()
+
+st.dataframe(updated_data)
 country_list = updated_data.Area.values.tolist()
 
 def query_country(df, name):
