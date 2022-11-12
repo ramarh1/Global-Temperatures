@@ -30,17 +30,6 @@ def query_country(df, name):
     
     return df2
 
-#
 brazil_stats = query_country(updated_data,"Brazil")
 
-'''option = st.selectbox(
-    'How would you like to be contacted?',
-    ('Email', 'Home phone', 'Mobile phone'))
-
-st.write('You selected:', option)
-'''
-
-
-#fig = px.line(brazil_stats, x="Year", y="Temp Change", labels={"Temp Change": "Change in temperature (C)"}, title= "Average Temperature Change in Brazil Over Time")
 st.line_chart(brazil_stats,x="Year",y="Temp Change")
-#fig.show()
