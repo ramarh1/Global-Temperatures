@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
+#import plotly.express as px
 
 st.title('Global Warming Trends in Brazil')
 data = pd.read_csv("archive/Environment_Temperature_change_E_All_Data_NOFLAG.csv")
