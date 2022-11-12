@@ -55,7 +55,8 @@ deforest_list = deforest_df.Entity.values.tolist()
 def query_country2(df,name):
     df = df.query(f"Entity == '{name}'")
 
-deforest_list = deforest_list.unique()
+deforest_list = [*set(deforest_list)]
+deforest_list = sorted(deforest_list)
 deforest_option = st.selectbox('Choose a country to see the deforestation trend:',deforest_list)
 deforest_stats = query_country2(deforest_df,deforest_option)
 st.bar_chart(deforest_stats,x="Year",y="Deforestation")
