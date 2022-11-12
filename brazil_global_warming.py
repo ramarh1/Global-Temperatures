@@ -45,3 +45,21 @@ option = st.selectbox('Choose a country to see the global warming trend:',countr
 country_stats = query_country(updated_data,option)
 
 st.line_chart(country_stats,x="Year",y="Temp Change")
+
+deforest_df = pd.read_csv("archive/annual-deforestation.csv")
+deforest_df = deforest_df.drop(columns="Code")
+deforest_df = deforest_df[4:]
+deforest_df = deforest_df.query("Entity != 'South America' and Entity != 'World'")
+deforest_list = deforest_df.Entity.values.tolist()
+
+def query_country2(df,name):
+    df = df.query(f"Entity == '{name}'")
+
+
+deforest_option = st.selectbox('Choose a country to see the deforestation trend:',deforest_list)
+'''year = st.select_slider(
+    'Select a year of the rainbow',
+    options=['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'])
+    '''
+deforest_stats = query_country2(deforest_df,deforest_option)
+st.bar_chart(deforest_stats,x="Year",y="Deforestation")
