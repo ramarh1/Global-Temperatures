@@ -59,6 +59,7 @@ def query_country2(df,name):
 file = "archive/earth.jpg"
 st.image(file)
 
+st.image("archive/unsplash.jpg")
 deforest_list = [*set(deforest_list)]
 deforest_list = sorted(deforest_list)
 deforest_option = st.selectbox('Choose a country to see the deforestation trend:',deforest_list)
