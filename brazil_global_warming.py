@@ -26,6 +26,7 @@ updated_data = preprocess_data(data)
 updated_data = updated_data.reset_index()
 
 st.dataframe(updated_data)
+st.caption("Dataframe displaying temperature difference of different countries.")
 country_list = updated_data.Area.values.tolist()
 
 def query_country(df, name):
@@ -45,6 +46,7 @@ option = st.selectbox('Choose a country to see the global warming trend:',countr
 country_stats = query_country(updated_data,option)
 
 st.line_chart(country_stats,x="Year",y="Temp Change")
+st.caption("Line chart displaying temperature difference of different countries from 1961-2019.")
 
 deforest_df = pd.read_csv("archive/annual-deforestation.csv")
 deforest_df = deforest_df.drop(columns="Code")
@@ -64,5 +66,7 @@ deforest_list = [*set(deforest_list)]
 deforest_list = sorted(deforest_list)
 deforest_option = st.selectbox('Choose a country to see the deforestation trend:',deforest_list)
 deforest_stats = query_country2(deforest_df,deforest_option)
+
 st.bar_chart(deforest_stats, x='Year',y='Deforestation')
+st.caption("Bar chart displaying deforestation trends across the world at different time periods up until 2015.")
   
