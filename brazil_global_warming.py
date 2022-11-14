@@ -76,7 +76,7 @@ st.caption("Bar chart displaying deforestation trends across the world at differ
 
 ghg_df = ghg_df.rename(columns={"country_or_area": "country"})
 GHG_countries = ghg_df.country.unique().tolist()
-GHG_option = st.select('Choose a country to view the GHG emissions in million metric tons from 1990-2014',GHG_countries)
+GHG_option = st.selectbox('Choose a country to view the GHG emissions in million metric tons from 1990-2014',GHG_countries)
 
 cycol = cycle('bgrcmk')
 
