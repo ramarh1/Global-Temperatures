@@ -97,4 +97,4 @@ def query_GHG_country(df,GHG_option):
     st.line_chart(queried_df,x='year',y='value')
 
 query_GHG_country(ghg_df,GHG_option)
-
+st.caption("Line chart displaying Greenhouse Gas Emission trends in different countries from 1990-2014.")
