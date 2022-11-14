@@ -45,10 +45,10 @@ def query_country(df, name):
     #df = df.rename(columns= lambda x: "Temp Change")
     #df = df.reset_index(drop=False)
     #df = df[1:]
-    df = df.groupby(["year","country"])['value'].sum()
-    df = df.reset_index()
+    #df = df.groupby(["year","Area"])['value'].sum()
+   # df = df.reset_index()
     
-    dfs = {country: df[df["country"] == country] for country in country_names}
+    dfs = {country: df[df["Area"] == country] for country in country_names}
     fig = go.Figure()
     for country, df in dfs.items():
         fig = fig.add_trace(go.Scatter(x=df["Year"], y=df["Temp Change"], name=country))
