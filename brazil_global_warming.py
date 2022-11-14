@@ -85,6 +85,9 @@ cycol = cycle('bgrcmk')
 def query_GHG_country(df,GHG_option):
     country_name = GHG_option
 
+    df = df.groupby(["year","country"])['value'].sum()
+    df = df.reset_index()
+
     if(len(country_name) == 1):
         df = df.query(f"country == '{country_name[0]}'")
     elif(len(country_name) == 2):
@@ -96,8 +99,6 @@ def query_GHG_country(df,GHG_option):
     elif(len(country_name) == 5):
         df = df.query(f"country in ('{country_name[0]}','{country_name[1]}','{country_name[2]}','{country_name[3]}','{country_name[4]}')")
     
-    df = df.groupby(["year"])['value'].sum()
-    df = df.reset_index()
     y = df.value
     x = df.year
     #fig, ax = plt.subplots()
