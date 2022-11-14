@@ -84,6 +84,7 @@ def query_GHG_country(df,GHG_option):
     country_name = GHG_option
 
     queried_df = df.query(f"country == '{country_name}'")
+    queried_df['year'] = queried_df['year'].astype(str)
     queried_df = queried_df.groupby(["year"])['value'].sum()
     queried_df = queried_df.reset_index()
     y = queried_df.value
