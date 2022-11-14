@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from itertools import cycle
-from plotly import objs as go
+import plotly.graph_objs as go
 
 st.set_page_config(
     page_title="Environment Dashboard",
