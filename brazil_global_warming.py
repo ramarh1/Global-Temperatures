@@ -50,7 +50,8 @@ option = st.selectbox('Choose a country to see the global warming trend:',countr
 result1 = st.button("Click button when finished with multiselect.",key=19)
 
 if(result1 == True):
-    st.header("You selected: {}".format(", ".join(option)))
+    st.header(f"You selected: {option}")
+    #st.header("You selected: {}".format(", ".join(option)))
     st.caption("Line chart displaying temperature difference of different countries from 1961-2019.")
     df = query_country(updated_data,option)
     fig = go.Figure()
