@@ -35,7 +35,7 @@ new_df = updated_data.melt(id_vars=["Area"],
 
 st.caption("Dataframe displaying temperature difference of different countries.")
 st.dataframe(new_df)
-country_list = updated_data.Area.values.tolist()
+country_list = new_df["Area"].unique().tolist()
 
 def query_country(df, name):
     #df = df.query(f"Area == '{name}'")
@@ -45,6 +45,8 @@ def query_country(df, name):
     #df = df.rename(columns= lambda x: "Temp Change")
     #df = df.reset_index(drop=False)
     #df = df[1:]
+    df = df.groupby(["year","country"])['value'].sum()
+    df = df.reset_index()
     
     dfs = {country: df[df["country"] == country] for country in country_names}
     fig = go.Figure()
