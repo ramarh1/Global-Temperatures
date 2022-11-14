@@ -93,5 +93,7 @@ def query_GHG_country(df,GHG_option):
     #ax.set_title("GHG Emissions per Year")
     #ax.set_xlabel("Year")
     #ax.set_ylabel("Total Greenhouse Gas Emissions (GHG)")
-    st.line_chart(x,y)
+    st.line_chart(queried_df,x='year',y='value')
+
 query_GHG_country(ghg_df,GHG_option)
+
