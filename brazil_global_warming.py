@@ -28,36 +28,41 @@ def preprocess_data(df):
 
 updated_data = preprocess_data(data)
 updated_data = updated_data.reset_index()
+new_df = updated_data.melt(id_vars=["Area"], 
+        var_name="Year", 
+        value_name="Temp Change"
+        )
 
 st.caption("Dataframe displaying temperature difference of different countries.")
-st.dataframe(updated_data)
+st.dataframe(new_df)
 country_list = updated_data.Area.values.tolist()
 
 def query_country(df, name):
     df = df.query(f"Area == '{name}'")
     country_names = name
-    df = df.T
-    df = df.rename_axis("Year")
-    df = df.rename(columns= lambda x: "Temp Change")
-    df = df.reset_index(drop=False)
-    df = df[1:]
+    #df = df.T
+    #df = df.rename_axis("Year")
+    #df = df.rename(columns= lambda x: "Temp Change")
+    #df = df.reset_index(drop=False)
+    #df = df[1:]
     
-    return df
+    dfs = {country: df[df["country"] == country] for country in country_names}
+    fig = go.Figure()
+    for country, df in dfs.items():
+        fig = fig.add_trace(go.Scatter(x=df["Year"], y=df["Temp Change"], name=country))
+    st.plotly_chart(fig)
 
 
-option = st.selectbox('Choose a country to see the global warming trend:',country_list)
-#result1 = st.button("Click button when finished with selection.",key=19)
+option = st.multiselect('Choose one or more countries to see the temperature differences over time:',country_list)
+result1 = st.button("Click button when finished with multiselect.",key=19)
 
-#if(result1 == True):
-st.header(f"You selected: {option}")
-    #st.header("You selected: {}".format(", ".join(option)))
-st.caption("Line chart displaying temperature difference of different countries from 1961-2019.")
-df = query_country(updated_data,option)
-fig = go.Figure()
-fig = fig.add_trace(go.Scatter(x=df["Year"], y=df["Temp Change"]))
-st.plotly_chart(fig)
+if(result1 == True):
+    st.header("You selected: {}".format(", ".join(option)))
+    st.caption("Line chart displaying temperature difference of different countries from 1961-2019.")
+    df = query_country(updated_data,option)
 
-#st.line_chart(country_stats,x="Year",y="Temp Change")
+
+
 
 deforest_df = pd.read_csv("archive/annual-deforestation.csv")
 deforest_df = deforest_df.drop(columns="Code")
