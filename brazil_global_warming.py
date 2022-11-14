@@ -74,13 +74,13 @@ deforest_stats = query_country2(deforest_df,deforest_option)
 st.bar_chart(deforest_stats, x='Year',y='Deforestation')
 st.caption("Bar chart displaying deforestation trends across the world at different time periods up until 2015.")
 
-
+# GHG Section of webpage
 ghg_df = ghg_df.rename(columns={"country_or_area": "country"})
 GHG_countries = ghg_df.country.unique().tolist()
 ghg_df['year'] = ghg_df['year'].astype(str)
-GHG_option = st.multiselect('Choose a country or no more than 5 countries to view the GHG emissions in million metric tons from 1990-2014',GHG_countries)
+GHG_option = st.multiselect('Choose one or more countries to view the GHG emissions in million metric tons from 1990-2014',GHG_countries)
 
-result = st.button("Click Button when finished with multiselect.")
+result = st.button("Click button when finished with multiselect.")
 cycol = cycle('bgrcmk')
 
 def query_GHG_country(df,GHG_option):
@@ -89,29 +89,6 @@ def query_GHG_country(df,GHG_option):
     df = df.groupby(["year","country"])['value'].sum()
     df = df.reset_index()
     dfs = {country: df[df["country"] == country] for country in country_name}
-
-
-    #if(len(country_name) == 1):
-     #   df = df.query(f"country == '{country_name[0]}'")
-    #elif(len(country_name) == 2):
-     #   df = df.query(f"country in ('{country_name[0]}','{country_name[1]}')")
-    #elif(len(country_name) == 3):
-     #   df = df.query(f"country in ('{country_name[0]}','{country_name[1]}','{country_name[2]}')")
-    #elif(len(country_name) == 4):
-     #   df = df.query(f"country in ('{country_name[0]}','{country_name[1]}','{country_name[2]}','{country_name[3]}')")
-    #elif(len(country_name) == 5):
-     #   df = df.query(f"country in ('{country_name[0]}','{country_name[1]}','{country_name[2]}','{country_name[3]}','{country_name[4]}')")
-    
-    #df = df.groupby(["year"])['value'].sum()
-    #df = df.reset_index()
-    #y = df.value
-    #x = df.year
-    #fig, ax = plt.subplots()
-    #ax.plot(x,y,color=next(cycol))
-    #ax.set_title("GHG Emissions per Year")
-    #ax.set_xlabel("Year")
-    #ax.set_ylabel("Total Greenhouse Gas Emissions (GHG)")
-    #st.line_chart(df,x='year',y='value')
     fig = go.Figure()
     for country, df in dfs.items():
         fig = fig.add_trace(go.Scatter(x=df["year"], y=df["value"], name=country))
