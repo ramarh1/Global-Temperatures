@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from itertools import cycle
+import plotly.graph_objects as go
 
 st.set_page_config(
     page_title="Environment Dashboard",
@@ -87,27 +88,36 @@ def query_GHG_country(df,GHG_option):
 
     df = df.groupby(["year","country"])['value'].sum()
     df = df.reset_index()
+    dfs = {country: df[df["country"] == country] for country in country_name}
 
-    if(len(country_name) == 1):
-        df = df.query(f"country == '{country_name[0]}'")
-    elif(len(country_name) == 2):
-        df = df.query(f"country in ('{country_name[0]}','{country_name[1]}')")
-    elif(len(country_name) == 3):
-        df = df.query(f"country in ('{country_name[0]}','{country_name[1]}','{country_name[2]}')")
-    elif(len(country_name) == 4):
-        df = df.query(f"country in ('{country_name[0]}','{country_name[1]}','{country_name[2]}','{country_name[3]}')")
-    elif(len(country_name) == 5):
-        df = df.query(f"country in ('{country_name[0]}','{country_name[1]}','{country_name[2]}','{country_name[3]}','{country_name[4]}')")
+
+    #if(len(country_name) == 1):
+     #   df = df.query(f"country == '{country_name[0]}'")
+    #elif(len(country_name) == 2):
+     #   df = df.query(f"country in ('{country_name[0]}','{country_name[1]}')")
+    #elif(len(country_name) == 3):
+     #   df = df.query(f"country in ('{country_name[0]}','{country_name[1]}','{country_name[2]}')")
+    #elif(len(country_name) == 4):
+     #   df = df.query(f"country in ('{country_name[0]}','{country_name[1]}','{country_name[2]}','{country_name[3]}')")
+    #elif(len(country_name) == 5):
+     #   df = df.query(f"country in ('{country_name[0]}','{country_name[1]}','{country_name[2]}','{country_name[3]}','{country_name[4]}')")
     
-    y = df.value
-    x = df.year
+    #df = df.groupby(["year"])['value'].sum()
+    #df = df.reset_index()
+    #y = df.value
+    #x = df.year
     #fig, ax = plt.subplots()
     #ax.plot(x,y,color=next(cycol))
     #ax.set_title("GHG Emissions per Year")
     #ax.set_xlabel("Year")
     #ax.set_ylabel("Total Greenhouse Gas Emissions (GHG)")
-    st.line_chart(df,x='year',y='value')
+    #st.line_chart(df,x='year',y='value')
+    fig = go.Figure()
+    for country, df in dfs.items():
+        fig = fig.add_trace(go.Scatter(x=df["year"], y=df["value"], name=country))
+    st.plotly_chart(fig)
 
 st.caption("Line chart displaying Greenhouse Gas Emission trends in different countries from 1990-2014.")
 if(result == True):
+    st.header("You selected: {}".format(", ".join(GHG_option)))
     query_GHG_country(ghg_df,GHG_option)
