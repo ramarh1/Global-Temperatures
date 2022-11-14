@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+from itertools import cycle
 
 st.set_page_config(
     page_title="Environment Dashboard",
@@ -11,6 +13,7 @@ st.set_page_config(
 
 st.title('Global Warming Trends in Different Countries')
 data = pd.read_csv("archive/ENVIRON_DATA.csv")
+ghg_df = pd.read_csv("archive/greenhouse.csv")
 
 def preprocess_data(df):
     df = df.copy()
@@ -69,4 +72,28 @@ deforest_stats = query_country2(deforest_df,deforest_option)
 
 st.bar_chart(deforest_stats, x='Year',y='Deforestation')
 st.caption("Bar chart displaying deforestation trends across the world at different time periods up until 2015.")
-  
+
+
+ghg_df = ghg_df.rename(columns={"country_or_area": "country"})
+GHG_countries = ghg_df.country.unique().tolist()
+GHG_option = st.multiselect('Choose a country or no more than 5 countries to view the GHG emissions in million metric tons from 1990-2014',GHG_countries)
+
+cycol = cycle('bgrcmk')
+
+def query_GHG_country(df,GHG_option):
+    names = GHG_option
+    for name in names:
+
+        queried_df = df.query(f"country == '{name}'")
+        queried_df = queried_df.groupby(["year"])['value'].sum()
+        queried_df = queried_df.reset_index()
+        y_val = queried_df.value
+        x_val = queried_df.year
+        plt.plot(x_val,y_val,color=next(cycol))
+        plt.title("GHG Emissions per Year")
+        plt.xlabel("Year")
+        plt.ylabel("Total Greenhouse Gas Emissions (GHG)")
+    
+    st.pyplot()
+
+query_GHG_country(ghg_df,GHG_option)
