@@ -49,7 +49,7 @@ def query_country(df, name):
 
 
 option = st.multiselect('Choose a country to see the global warming trend:',country_list)
-result1 = st.button("Click button when finished with multiselect.")
+result1 = st.button("Click button when finished with multiselect.",key=19)
 
 if(result1 == True):
     st.header("You selected: {}".format(", ".join(option)))
@@ -86,7 +86,7 @@ GHG_countries = ghg_df.country.unique().tolist()
 ghg_df['year'] = ghg_df['year'].astype(str)
 GHG_option = st.multiselect('Choose one or more countries to view the GHG emissions in million metric tons from 1990-2014',GHG_countries)
 
-result = st.button("Click button when finished with multiselect.")
+result = st.button("Click button when finished with multiselect.", key=20)
 cycol = cycle('bgrcmk')
 
 def query_GHG_country(df,GHG_option):
