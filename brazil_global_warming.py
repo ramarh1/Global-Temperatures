@@ -46,7 +46,7 @@ def query_country(df, name):
     return df
 
 
-option = st.multiselect('Choose a country to see the global warming trend:',country_list)
+option = st.selectbox('Choose a country to see the global warming trend:',country_list)
 result1 = st.button("Click button when finished with multiselect.",key=19)
 
 if(result1 == True):
