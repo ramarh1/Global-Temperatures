@@ -79,6 +79,7 @@ GHG_countries = ghg_df.country.unique().tolist()
 ghg_df['year'] = ghg_df['year'].astype(str)
 GHG_option = st.multiselect('Choose a country or no more than 5 countries to view the GHG emissions in million metric tons from 1990-2014',GHG_countries)
 
+result = st.button("Click Button when finished with multiselect.")
 cycol = cycle('bgrcmk')
 
 def query_GHG_country(df,GHG_option):
@@ -107,4 +108,5 @@ def query_GHG_country(df,GHG_option):
     st.line_chart(df,x='year',y='value')
 
 st.caption("Line chart displaying Greenhouse Gas Emission trends in different countries from 1990-2014.")
-query_GHG_country(ghg_df,GHG_option)
+if(result == True):
+    query_GHG_country(ghg_df,GHG_option)
