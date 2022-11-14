@@ -29,28 +29,34 @@ def preprocess_data(df):
 updated_data = preprocess_data(data)
 updated_data = updated_data.reset_index()
 
-st.dataframe(updated_data)
 st.caption("Dataframe displaying temperature difference of different countries.")
+st.dataframe(updated_data)
 country_list = updated_data.Area.values.tolist()
 
 def query_country(df, name):
-    df2 = df.query(f"Area == '{name}'")
-    df2 = df2.T
-    df2 = df2.rename_axis("Year")
-    df2 = df2.rename(columns= lambda x: "Temp Change")
-    df2 = df2.reset_index(drop=False)
-    df2 = df2[1:]
+    #df2 = df.query(f"Area == '{name}'")
+    df = df.T
+    df = df.rename_axis("Year")
+    df = df.rename(columns= lambda x: "Temp Change")
+    df = df.reset_index(drop=False)
+    df = df[1:]
     
-    return df2
+    dfs = {country: df[df["country"] == country] for country in country_stats}
+    fig = go.Figure()
+    for country, df in dfs.items():
+        fig = fig.add_trace(go.Scatter(x=df["Year"], y=df["Temp Change"], name=country))
+    st.plotly_chart(fig)
 
-option = st.selectbox('Choose a country to see the global warming trend:',country_list)
 
+option = st.multiselect('Choose a country to see the global warming trend:',country_list)
+result1 = st.button("Click button when finished with multiselect.")
 
-#brazil_stats = query_country(updated_data,"Brazil")
-country_stats = query_country(updated_data,option)
+if(result1 == True):
+    st.header("You selected: {}".format(", ".join(option)))
+    st.caption("Line chart displaying temperature difference of different countries from 1961-2019.")
+    country_stats = query_country(updated_data,option)
 
-st.line_chart(country_stats,x="Year",y="Temp Change")
-st.caption("Line chart displaying temperature difference of different countries from 1961-2019.")
+#st.line_chart(country_stats,x="Year",y="Temp Change")
 
 deforest_df = pd.read_csv("archive/annual-deforestation.csv")
 deforest_df = deforest_df.drop(columns="Code")
@@ -71,8 +77,8 @@ deforest_list = sorted(deforest_list)
 deforest_option = st.selectbox('Choose a country to see the deforestation trend:',deforest_list)
 deforest_stats = query_country2(deforest_df,deforest_option)
 
-st.bar_chart(deforest_stats, x='Year',y='Deforestation')
 st.caption("Bar chart displaying deforestation trends across the world at different time periods up until 2015.")
+st.bar_chart(deforest_stats, x='Year',y='Deforestation')
 
 # GHG Section of webpage
 ghg_df = ghg_df.rename(columns={"country_or_area": "country"})
@@ -94,7 +100,7 @@ def query_GHG_country(df,GHG_option):
         fig = fig.add_trace(go.Scatter(x=df["year"], y=df["value"], name=country))
     st.plotly_chart(fig)
 
-st.caption("Line chart displaying Greenhouse Gas Emission trends in different countries from 1990-2014.")
 if(result == True):
     st.header("You selected: {}".format(", ".join(GHG_option)))
+    st.caption("Line chart displaying Greenhouse Gas Emission trends in different countries from 1990-2014.")
     query_GHG_country(ghg_df,GHG_option)
