@@ -43,9 +43,7 @@ def query_country(df, name):
     df = df[1:]
     
     #dfs = {country: df[df["Area"] == country] for country in country_names}
-    fig = go.Figure()
-    fig = fig.add_trace(go.Scatter(x=df["Year"], y=df["Temp Change"]))
-    st.plotly_chart(fig)
+    return df
 
 
 option = st.multiselect('Choose a country to see the global warming trend:',country_list)
@@ -54,7 +52,10 @@ result1 = st.button("Click button when finished with multiselect.",key=19)
 if(result1 == True):
     st.header("You selected: {}".format(", ".join(option)))
     st.caption("Line chart displaying temperature difference of different countries from 1961-2019.")
-    query_country(updated_data,option)
+    df = query_country(updated_data,option)
+    fig = go.Figure()
+    fig = fig.add_trace(go.Scatter(x=df["Year"], y=df["Temp Change"]))
+    st.plotly_chart(fig)
 
 #st.line_chart(country_stats,x="Year",y="Temp Change")
 
