@@ -88,13 +88,13 @@ def query_GHG_country(df,GHG_option):
     if(len(country_name) == 1):
         df = df.query(f"country == '{country_name[0]}'")
     elif(len(country_name) == 2):
-        df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}'")
+        df = df.query(f"country in ('{country_name[0]}','{country_name[1]}')")
     elif(len(country_name) == 3):
-        df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}' or '{country_name[2]}'")
+        df = df.query(f"country in ('{country_name[0]}','{country_name[1]}'),'{country_name[2]}')")
     elif(len(country_name) == 4):
-        df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}' or '{country_name[2]}' or '{country_name[3]}'")
+        df = df.query(f"country in ('{country_name[0]}','{country_name[1]}'),'{country_name[2]}','{country_name[3]}')")
     elif(len(country_name) == 5):
-        df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}' or '{country_name[2]}' or '{country_name[3]}' or '{country_name[4]}'")
+        df = df.query(f"country in ('{country_name[0]}','{country_name[1]}'),'{country_name[2]}','{country_name[3]}','{country_name[4]}')")
     
     df = df.groupby(["year"])['value'].sum()
     df = df.reset_index()
