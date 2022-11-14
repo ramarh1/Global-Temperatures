@@ -87,13 +87,15 @@ def query_GHG_country(df,GHG_option):
         queried_df = df.query(f"country == '{name}'")
         queried_df = queried_df.groupby(["year"])['value'].sum()
         queried_df = queried_df.reset_index()
-        y_val = queried_df.value
-        x_val = queried_df.year
-        plt.plot(x_val,y_val,color=next(cycol))
-        plt.title("GHG Emissions per Year")
-        plt.xlabel("Year")
-        plt.ylabel("Total Greenhouse Gas Emissions (GHG)")
+        y = queried_df.value
+        x = queried_df.year
+        fig, ax = plt.subplots()
+        ax.plot(x,y,color=next(cycol))
+        #plt.plot(x_val,y_val,color=next(cycol))
+        ax.set_title("GHG Emissions per Year")
+        ax.set_xlabel("Year")
+        ax.set_ylabel("Total Greenhouse Gas Emissions (GHG)")
     
-    st.pyplot()
+    st.pyplot(fig)
 
 query_GHG_country(ghg_df,GHG_option)
