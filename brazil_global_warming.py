@@ -84,27 +84,27 @@ cycol = cycle('bgrcmk')
 def query_GHG_country(df,GHG_option):
     country_name = GHG_option
 
-    if(country_name.count() == 1):
-        queried_df = df.query(f"country == '{country_name[0]}'")
-    if(country_name.count() == 2):
-        queried_df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}'")
-    if(country_name.count() == 3):
-        queried_df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}' or '{country_name[2]}'")
-    if(country_name.count() == 4):
-        queried_df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}' or '{country_name[2]}' or '{country_name[3]}'")
-    elif(country_name.count() == 5):
-        queried_df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}' or '{country_name[2]}' or '{country_name[3]}' or '{country_name[4]}'")
+    if(len(country_name) == 1):
+        df = df.query(f"country == '{country_name[0]}'")
+    if(len(country_name) == 2):
+        df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}'")
+    if(len(country_name) == 3):
+        df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}' or '{country_name[2]}'")
+    if(len(country_name) == 4):
+        df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}' or '{country_name[2]}' or '{country_name[3]}'")
+    elif(len(country_name) == 5):
+        df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}' or '{country_name[2]}' or '{country_name[3]}' or '{country_name[4]}'")
     
-    queried_df = queried_df.groupby(["year"])['value'].sum()
-    queried_df = queried_df.reset_index()
-    y = queried_df.value
-    x = queried_df.year
+    df = df.groupby(["year"])['value'].sum()
+    df = df.reset_index()
+    y = df.value
+    x = df.year
     #fig, ax = plt.subplots()
     #ax.plot(x,y,color=next(cycol))
     #ax.set_title("GHG Emissions per Year")
     #ax.set_xlabel("Year")
     #ax.set_ylabel("Total Greenhouse Gas Emissions (GHG)")
-    st.line_chart(queried_df,x='year',y='value')
+    st.line_chart(df,x='year',y='value')
 
 query_GHG_country(ghg_df,GHG_option)
 st.caption("Line chart displaying Greenhouse Gas Emission trends in different countries from 1990-2014.")
