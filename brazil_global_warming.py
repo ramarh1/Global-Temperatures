@@ -76,26 +76,24 @@ st.caption("Bar chart displaying deforestation trends across the world at differ
 
 ghg_df = ghg_df.rename(columns={"country_or_area": "country"})
 GHG_countries = ghg_df.country.unique().tolist()
-GHG_option = st.multiselect('Choose a country or no more than 5 countries to view the GHG emissions in million metric tons from 1990-2014',GHG_countries)
+GHG_option = st.select('Choose a country to view the GHG emissions in million metric tons from 1990-2014',GHG_countries)
 
 cycol = cycle('bgrcmk')
 
 def query_GHG_country(df,GHG_option):
-    names = GHG_option
-    for name in names:
+    country_name = GHG_option
 
-        queried_df = df.query(f"country == '{name}'")
-        queried_df = queried_df.groupby(["year"])['value'].sum()
-        queried_df = queried_df.reset_index()
-        y = queried_df.value
-        x = queried_df.year
-        fig, ax = plt.subplots()
-        ax.plot(x,y,color=next(cycol))
-        #plt.plot(x_val,y_val,color=next(cycol))
-        ax.set_title("GHG Emissions per Year")
-        ax.set_xlabel("Year")
-        ax.set_ylabel("Total Greenhouse Gas Emissions (GHG)")
-    
+    queried_df = df.query(f"country == '{country_name}'")
+    queried_df = queried_df.groupby(["year"])['value'].sum()
+    queried_df = queried_df.reset_index()
+    y = queried_df.value
+    x = queried_df.year
+    fig, ax = plt.subplots()
+    ax.plot(x,y,color=next(cycol))
+    #plt.plot(x_val,y_val,color=next(cycol))
+    ax.set_title("GHG Emissions per Year")
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Total Greenhouse Gas Emissions (GHG)")
     st.pyplot(fig)
-
+    
 query_GHG_country(ghg_df,GHG_option)
