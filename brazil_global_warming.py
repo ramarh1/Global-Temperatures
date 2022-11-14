@@ -38,16 +38,7 @@ st.dataframe(new_df)
 country_list = new_df["Area"].unique().tolist()
 
 def query_country(df, name):
-    #df = df.query(f"Area == '{name}'")
-    country_names = name
-    #df = df.T
-    #df = df.rename_axis("Year")
-    #df = df.rename(columns= lambda x: "Temp Change")
-    #df = df.reset_index(drop=False)
-    #df = df[1:]
-    #df = df.groupby(["year","Area"])['value'].sum()
-   # df = df.reset_index()
-    
+    country_names = name   
     dfs = {country: df[df["Area"] == country] for country in country_names}
     fig = go.Figure()
     for country, df in dfs.items():
