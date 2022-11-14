@@ -76,15 +76,25 @@ st.caption("Bar chart displaying deforestation trends across the world at differ
 
 ghg_df = ghg_df.rename(columns={"country_or_area": "country"})
 GHG_countries = ghg_df.country.unique().tolist()
-GHG_option = st.selectbox('Choose a country to view the GHG emissions in million metric tons from 1990-2014',GHG_countries)
+ghg_df['year'] = ghg_df['year'].astype(str)
+GHG_option = st.multiselect('Choose a country or no more than 5 countries to view the GHG emissions in million metric tons from 1990-2014',GHG_countries)
 
 cycol = cycle('bgrcmk')
 
 def query_GHG_country(df,GHG_option):
     country_name = GHG_option
 
-    queried_df = df.query(f"country == '{country_name}'")
-    queried_df['year'] = queried_df['year'].astype(str)
+    if(country_name.count() == 1):
+        queried_df = df.query(f"country == '{country_name[0]}'")
+    if(country_name.count() == 2):
+        queried_df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}'")
+    if(country_name.count() == 3):
+        queried_df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}' or '{country_name[2]}'")
+    if(country_name.count() == 4):
+        queried_df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}' or '{country_name[2]}' or '{country_name[3]}'")
+    elif(country_name.count() == 5):
+        queried_df = df.query(f"country == '{country_name[0]}' or '{country_name[1]}' or '{country_name[2]}' or '{country_name[3]}' or '{country_name[4]}'")
+    
     queried_df = queried_df.groupby(["year"])['value'].sum()
     queried_df = queried_df.reset_index()
     y = queried_df.value
